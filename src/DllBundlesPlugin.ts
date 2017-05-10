@@ -1,6 +1,5 @@
 const DllPlugin = require('webpack/lib/DllPlugin');
 const DllReferencePlugin = require('webpack/lib/DllReferencePlugin');
-
 import * as Path from 'path';
 import { runWebpack } from './utils';
 
@@ -49,9 +48,10 @@ export class DllBundlesPlugin {
 
           const webpackConfig = Object.assign({}, this.options.webpackConfig, {
             entry: newEntry,
+            
             output: {
               path: this.options.dllDir,
-              filename: '[name].dll.js',
+              filename: '[name].[chunkhash].dll.js',
               library: '[name]_lib'
             },
           });
@@ -95,7 +95,13 @@ export class DllBundlesPlugin {
     this.bundleControl = new DllBundlesControl(this.bundles, this.options);
   }
 
-  static resolveFile(bundleName: string): string {
-    return `${bundleName}.dll.js`;
+  static resolveFile(bundleName: string, options:any): string {
+    var glob = require('glob-fs')({ gitignore: true })
+    var toMatch = options.dllDir + "/" + bundleName + "*.dll.js";
+    var files = glob.readdirSync( toMatch);
+    if (files && files.length){
+      return files[0];
+    }
+    return '';
   }
 }

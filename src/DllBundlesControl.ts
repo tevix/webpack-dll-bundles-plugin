@@ -106,8 +106,17 @@ export class DllBundlesControl {
    * @returns {boolean}
    */
   private bundleLooksValid(name: string): boolean {
-    return !fs.existsSync(Path.join(this.options.dllDir, `${name}.dll.js`))
-      || !fs.existsSync(Path.join(this.options.dllDir, `${name}-manifest.json`));
+
+    var glob = require('glob-fs')({ gitignore: true })
+    try{
+    glob.readdirSync( `dll/${name}*.dll.js`);
+    var files = glob.readdirSync(`dll/${name}-manifest.json`);
+    }catch(err){
+      return false;
+    }
+    return files.length >= 2;
+    //return !fs.existsSync(Path.join(this.options.dllDir, `${name}.dll.js`))
+    //  || !fs.existsSync(Path.join(this.options.dllDir, `${name}-manifest.json`));
   }
 
   /**

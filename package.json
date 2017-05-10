@@ -2,7 +2,7 @@
   "name": "webpack-dll-bundles-plugin",
   "version": "1.0.0-beta.5",
   "description": "A Webpack plugin for bundling group of packages as DLLs",
-  "main": "index.js",
+  "main": "dist/index.js",
   "typings": "index.d.ts",
   "author": "Shlomi Assaf <shlomiasaf@gmail.com>",
   "license": "MIT",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "find-root": "^1.0.0",
+    "glob-fs": "0.1.6",
     "jsonfile": "^2.4.0"
   },
   "repository": {
